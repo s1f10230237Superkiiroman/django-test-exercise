@@ -14,7 +14,6 @@ class Task(models.Model):
         return self.due_at < dt
 
 class Comment(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    author = models.CharField(max_length=100)
+    task = models.ForeignKey(Task, related_name='comments', on_delete=models.CASCADE)
     text = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
