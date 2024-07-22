@@ -2,32 +2,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-  <head>
-    <title>To Do Application</title>
-    <meta charset="UTF-8">
-    <meta name="author" content="INIAD">
-  </head>
+<head>
+  <title>To Do Application</title>
+  <meta charset="UTF-8">
+  <meta name="author" content="INIAD">
+</head>
 
-  <body>
-    <h1>{{ task.title }}</h1>
-    <ul>
-      <li>Posted at: {{ task.posted_at }}</li>
-      {% if task.due_at %}
-      <li>Due at: {{ task.due_at }}</li>
-      {% endif %}
-      {% if task.completed %}
-      <li>Status: Completed</li>
-      {% else %}
-      <li>Status: Not Completed</li>
-      {% endif %}
-    </ul>
+<body>
+  <h1>{{ task.title }}</h1>
+  <ul>
+    <li>Posted at: {{ task.posted_at }}</li>
+    {% if task.due_at %}
+    <li>Due at: {{ task.due_at }}</li>
+    {% endif %}
+    {% if task.completed %}
+    <li>Status: Completed</li>
+    {% else %}
+    <li>Status: Not Completed</li>
+    {% endif %}
+  </ul>
 
-    <div>
-      <a href="{% url 'index' %}">Top</a>
-      <a href="{% url 'update' task.id %}">Edit</a>
-      <a href="{% url 'close' task.id %}">Close</a>
-      <a href="{% url 'delete' task.id %}">Delete</a>
-    </div>
-  </body>
+  <div>
+    <a href="{% url 'index' %}">Top</a>
+    <a href="{% url 'update' task.id %}">Edit</a>
+    <a href="{% url 'close' task.id %}">Close</a>
+    <a href="{% url 'delete' task.id %}">Delete</a>
+  </div>
+
+  <h2>Comments</h2>
+  <ul>
+    {% for comment in comments %}
+    <li>
+      <strong>{{ comment.author }}</strong> ({{ comment.created_date }}): {{ comment.text }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Add a Comment</h3>
+  <form action="{% url 'detail' task.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+</body>
 
 </html>

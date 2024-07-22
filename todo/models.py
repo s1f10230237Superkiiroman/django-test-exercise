@@ -12,3 +12,9 @@ class Task(models.Model):
         if self.due_at is None:
             return False
         return self.due_at < dt
+
+class Comment(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    author = models.CharField(max_length=100)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
