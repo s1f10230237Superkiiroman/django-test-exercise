@@ -37,14 +37,15 @@ def detail(request, task_id):
     else:
         form = CommentForm()
 
-    comments = task.comment_set.all()
+    comments = task.comments.all()  # 修正済み: comments を使用
 
     context = {
-        'task' : task,
+        'task': task,
         'form': form,
         'comments': comments,
     }
     return render(request, 'todo/detail.html', context)
+    
 def update (request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
