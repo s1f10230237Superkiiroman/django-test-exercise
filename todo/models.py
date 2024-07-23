@@ -11,7 +11,7 @@ class Task(models.Model):
     def is_overdue(self, dt):
         if self.due_at is None:
             return False
-        return self.due_at < d
+        return self.due_at < dt
     
     def like_count(self):
         return self.likes.count()
