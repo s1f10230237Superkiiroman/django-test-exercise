@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from django.http import Http404
-from todo.models import Task
+from todo.models import Task, Post
 
 # Create your views here.
 def index(request):
@@ -64,3 +64,14 @@ def delete(request, task_id):
     
     task.delete()
     return redirect(index)
+
+def post_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.user.is_authenticated:
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+    
+    return redirect(detail, pk=pk) 
