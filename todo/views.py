@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from django.http import Http404
@@ -63,4 +63,10 @@ def delete(request, task_id):
         raise Http404("Task does not exist")
     
     task.delete()
+    return redirect(index)
+
+def like(request, task_id):  # 新しい「いいね」ビューを追加
+    task = get_object_or_404(Task, pk=task_id)
+    task.likes += 1
+    task.save()
     return redirect(index)
