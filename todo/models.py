@@ -14,4 +14,4 @@ class Task(models.Model):
         return self.due_at < d
     
     def like_count(self):
-        return self.likes.count()t
+        return self.likes.count()
